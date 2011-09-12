@@ -10,6 +10,7 @@
 #include <gtkmm-3.0/gtkmm.h>
 
 #include "headers/MainWindow.h"
+#include "headers/LoginWindow.h"
 
 using namespace std;
 
@@ -19,6 +20,15 @@ using namespace std;
 int main(int argc, char** argv)
 {
   Gtk::Main gin(argc, argv);
+  
+  LoginWindow lw;
+  
+  Gtk::Main::run(lw);
+  
+  if (!lw.isCorrect())
+  {
+    return 0;
+  }
   
   MainWindow mw;
   
