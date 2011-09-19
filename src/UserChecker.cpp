@@ -8,8 +8,9 @@
 #include "../headers/UserChecker.h"
 
 #include <cstring>
+#include <sstream>
 #include <fstream>
-#include <openssl/evp.h>
+#include <openssl/sha.h>
 
 using namespace std;
 
@@ -37,50 +38,53 @@ bool UserChecker::checkUser(std::string user, std::string pass)
     file >> pass_file;
     if (user_file == user)
     {
-      //TODO: sprawdzenie hasła
+      if (pass_file == sha(pass))
+      {
+        ok = true;
+      }
     }
   }
   file.close();
+  return ok;
 }
 
 bool UserChecker::addUser(std::string user, std::string pass)
 {
   ofstream file(filename, ios::ate | ios::app);
-  file << "\n";
   file << user;
   file << " ";
-  string sh = sha1(pass);
-  file << pass;
+  string sh = sha(pass);
+  file << sh;
+  file << "\n";
   file.close();
 }
 
-string UserChecker::sha1(std::string what)
+string UserChecker::sha(std::string what)
 {
   char *w = new char[what.size()+1];
   strncpy(w, what.c_str(), what.size());
-  string tmp = "";
-  EVP_MD_CTX mdctx;
-  const EVP_MD *md;
-  unsigned char md_value[EVP_MAX_MD_SIZE];
-  unsigned int md_len, i;
-  OpenSSL_add_all_digests();
-  md = EVP_get_digestbyname("qqq");
-  if(!md) {
-        printf("Unknown message digest %s\n", "qqq");
-        exit(1);
- }
-  EVP_MD_CTX_init(&mdctx);
-  EVP_DigestInit_ex(&mdctx, md, NULL);
-  EVP_DigestUpdate(&mdctx, w, strlen(w));
-  EVP_DigestFinal_ex(&mdctx, md_value, &md_len);
-  EVP_MD_CTX_cleanup(&mdctx);
-  printf("Digest is: ");
-  for (i = 0; i < md_len; i++)
+  w[what.size()] = '\0';
+  int a = strlen(w);
+  
+  char out[SHA256_DIGEST_LENGTH * 2];
+
+  SHA256_CTX context;
+  unsigned char md[SHA256_DIGEST_LENGTH];
+
+  SHA256_Init(&context);
+  SHA256_Update(&context, (unsigned char*) w, strlen(w));
+  SHA256_Final(md, &context);
+
+  int i;
+  //tmp.setf(ios::hex, ios::basefield);
+  for (i = 0; i < SHA256_DIGEST_LENGTH; i++)
   {
-    printf("%02x", md_value[i]);
-    tmp += md_value[i];
+    sprintf(out+2*i, "%02x", md[i]);
+ //   printf("% 02x ", md[i]);
+    //tmp += md[i];
+    //tmp << hex << md[i];
   }
-  printf("\n");
-  delete [] w;
+  //printf("\n");
+  string tmp(out);
   return tmp;
 }

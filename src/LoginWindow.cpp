@@ -68,13 +68,21 @@ void LoginWindow::initButtons()
 void LoginWindow::ok_clicked()
 {
   //TODO: doppisz
+  UserChecker uc;
+  if (uc.checkUser(login.get_text(), pass.get_text()))
+  {
+    hide();
+  }
 }
 
 void LoginWindow::new_user_clicked()
 {
   //TODO: doppisz
   UserChecker uc;
-  uc.addUser(login.get_text(), pass.get_text());
+  if (uc.addUser(login.get_text(), pass.get_text()))
+  {
+    
+  }
 }
 void LoginWindow::exit_clicked()
 {

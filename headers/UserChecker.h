@@ -21,7 +21,7 @@ public:
   bool addUser(std::string user, std::string pass);
 private:
   std::string filename;
-  std::string sha1(std::string what);
+  std::string sha(std::string what);
 };
 
 #endif	/* USERCHECKER_H */
