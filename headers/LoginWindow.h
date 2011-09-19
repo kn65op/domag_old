@@ -28,6 +28,10 @@ private:
   bool login_ok;
   
   void init();
+  void initButtons();
+  void ok_clicked();
+  void exit_clicked();
+  void new_user_clicked();
 };
 
 #endif	/* LOGINWINDOW_H */

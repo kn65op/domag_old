@@ -17,6 +17,7 @@ login_ok(false),
 login_lab("Użytkownik:", Gtk::ALIGN_END),
 pass_lab("Hasło:", Gtk::ALIGN_END)
 {
+  initButtons();
   init();
 }
 
@@ -53,3 +54,26 @@ bool LoginWindow::isCorrect()
   return login_ok;
 }
 
+void LoginWindow::initButtons()
+{
+   ok.signal_clicked().connect( sigc::mem_fun(*this,
+              &LoginWindow::ok_clicked) );
+   exit_but.signal_clicked().connect( sigc::mem_fun(*this,
+              &LoginWindow::exit_clicked) );
+   new_user.signal_clicked().connect( sigc::mem_fun(*this,
+              &LoginWindow::new_user_clicked) );
+}
+
+void LoginWindow::ok_clicked()
+{
+  //TODO: doppisz
+}
+
+void LoginWindow::new_user_clicked()
+{
+  //TODO: doppisz
+}
+void LoginWindow::exit_clicked()
+{
+  hide();
+}
