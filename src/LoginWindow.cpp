@@ -6,6 +6,7 @@
  */
 
 #include "../headers/LoginWindow.h"
+#include "../headers/UserChecker.h"
 
 using namespace std;
 
@@ -72,6 +73,8 @@ void LoginWindow::ok_clicked()
 void LoginWindow::new_user_clicked()
 {
   //TODO: doppisz
+  UserChecker uc;
+  uc.addUser(login.get_text(), pass.get_text());
 }
 void LoginWindow::exit_clicked()
 {
