@@ -36,6 +36,7 @@ void LoginWindow::init()
   new_user.set_size_request(200, 30);
   
   add(main_vbox);
+  pass.set_visibility(false);
   main_vbox.pack_start(login_hbox, Gtk::PACK_SHRINK, 10);
   login_hbox.pack_start(login_lab, Gtk::PACK_SHRINK, 10);
   login_hbox.pack_start(login, Gtk::PACK_EXPAND_WIDGET, 10);
@@ -69,7 +70,7 @@ void LoginWindow::ok_clicked()
 {
   //TODO: doppisz
   UserChecker uc;
-  if (uc.checkUser(login.get_text(), pass.get_text()))
+  if (login_ok = uc.checkUser(login.get_text(), pass.get_text()))
   {
     hide();
   }
@@ -78,8 +79,8 @@ void LoginWindow::ok_clicked()
 void LoginWindow::new_user_clicked()
 {
   //TODO: doppisz
-  UserChecker uc;
-  if (uc.addUser(login.get_text(), pass.get_text()))
+  //UserChecker uc;
+  //if (uc.addUser(login.get_text(), pass.get_text()))
   {
     
   }
