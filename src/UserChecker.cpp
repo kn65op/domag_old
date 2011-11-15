@@ -58,7 +58,7 @@ bool UserChecker::addUser(std::string user, std::string pass)
   if (!file.good())
   {
     file.close();
-    file.open(filename, ios::);
+    file.open(filename);
   }
   file << user;
   file << " ";

@@ -83,6 +83,9 @@ void LoginWindow::new_user_clicked()
   if (login.get_text() != "" && pass.get_text() != "" && uc.addUser(login.get_text(), pass.get_text()))
   {
     Gtk::MessageDialog *info = new Gtk::MessageDialog("Konto utworzono");
+    info->set_modal(true);
+    info->run();
+    delete info;
   }
 }
 
