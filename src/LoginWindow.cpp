@@ -34,7 +34,7 @@ void LoginWindow::init()
   ok.set_size_request(200, 30);
   exit_but.set_size_request(200, 30);
   new_user.set_size_request(200, 30);
-  
+
   add(main_vbox);
   pass.set_visibility(false);
   main_vbox.pack_start(login_hbox, Gtk::PACK_SHRINK, 10);
@@ -58,12 +58,12 @@ bool LoginWindow::isCorrect()
 
 void LoginWindow::initButtons()
 {
-   ok.signal_clicked().connect( sigc::mem_fun(*this,
-              &LoginWindow::ok_clicked) );
-   exit_but.signal_clicked().connect( sigc::mem_fun(*this,
-              &LoginWindow::exit_clicked) );
-   new_user.signal_clicked().connect( sigc::mem_fun(*this,
-              &LoginWindow::new_user_clicked) );
+  ok.signal_clicked().connect(sigc::mem_fun(*this,
+          &LoginWindow::ok_clicked));
+  exit_but.signal_clicked().connect(sigc::mem_fun(*this,
+          &LoginWindow::exit_clicked));
+  new_user.signal_clicked().connect(sigc::mem_fun(*this,
+          &LoginWindow::new_user_clicked));
 }
 
 void LoginWindow::ok_clicked()
@@ -73,6 +73,13 @@ void LoginWindow::ok_clicked()
   if (login_ok = uc.checkUser(login.get_text(), pass.get_text()))
   {
     hide();
+  }
+  else
+  {
+    Gtk::MessageDialog *info = new Gtk::MessageDialog("Błędny login lub hasło.");
+    info->set_modal(true);
+    info->run();
+    delete info;
   }
 }
 
