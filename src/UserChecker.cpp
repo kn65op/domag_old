@@ -55,12 +55,18 @@ bool UserChecker::checkUser(std::string user, std::string pass)
 bool UserChecker::addUser(std::string user, std::string pass)
 {
   ofstream file(filename, ios::ate | ios::app);
+  if (!file.good())
+  {
+    file.close();
+    file.open(filename, ios::);
+  }
   file << user;
   file << " ";
   string sh = sha(pass);
   file << sh;
   file << "\n";
   file.close();
+  return true;
 }
 
 string UserChecker::sha(std::string what)

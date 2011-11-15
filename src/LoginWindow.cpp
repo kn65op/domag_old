@@ -79,12 +79,13 @@ void LoginWindow::ok_clicked()
 void LoginWindow::new_user_clicked()
 {
   //TODO: doppisz
-  //UserChecker uc;
-  //if (uc.addUser(login.get_text(), pass.get_text()))
+  UserChecker uc;
+  if (login.get_text() != "" && pass.get_text() != "" && uc.addUser(login.get_text(), pass.get_text()))
   {
-    
+    Gtk::MessageDialog *info = new Gtk::MessageDialog("Konto utworzono");
   }
 }
+
 void LoginWindow::exit_clicked()
 {
   hide();
