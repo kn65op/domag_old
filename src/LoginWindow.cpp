@@ -68,7 +68,6 @@ void LoginWindow::initButtons()
 
 void LoginWindow::ok_clicked()
 {
-  //TODO: doppisz
   UserChecker uc;
   if (login_ok = uc.checkUser(login.get_text(), pass.get_text()))
   {
@@ -85,7 +84,6 @@ void LoginWindow::ok_clicked()
 
 void LoginWindow::new_user_clicked()
 {
-  //TODO: doppisz
   UserChecker uc;
   if (login.get_text() != "" && pass.get_text() != "" && uc.addUser(login.get_text(), pass.get_text()))
   {
