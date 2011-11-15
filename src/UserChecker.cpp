@@ -31,6 +31,10 @@ bool UserChecker::checkUser(std::string user, std::string pass)
 {
   bool ok = false;
   ifstream file(filename);
+  if (!file.good())
+  {
+    return false;
+  }
   string user_file, pass_file;
   while (!ok && !file.eof())
   {
