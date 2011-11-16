@@ -6,18 +6,31 @@
  */
 
 #include "../headers/SQLite3Controller.h"
+#include "../headers/sqlite3.h"
+
+#include <string>
 
 using namespace std;
 
-SQLite3Controller::SQLite3Controller()
+SQLite3Controller::SQLite3Controller(string dbname)
 {
+  db_name = dbname;
 }
 
-SQLite3Controller::SQLite3Controller(const SQLite3Controller& orig)
+bool SQLite3Controller::open()
 {
+  if (sqlite3_open(db_name.c_str(), &db_handle) == SQLITE_OK && db_handle)
+  {
+    return true;
+  }
+  return false;
 }
 
-SQLite3Controller::~SQLite3Controller()
+bool SQLite3Controller::close()
 {
+  if (sqlite3_close(db_handle) == SQLITE_OK) //KWP ewentualnie co zrobić z busy?
+  {
+    return true;
+  }
+  return false;
 }
-

@@ -8,14 +8,14 @@
 #ifndef DBCONTROLLER_H
 #define	DBCONTROLLER_H
 
+#include <string>
+
 class DBController
 {
 public:
-  DBController();
-  DBController(const DBController& orig);
-  virtual ~DBController();
+  DBController(std::string dbname);
 private:
-
+  std::string db_name;
 };
 
 #endif	/* DBCONTROLLER_H */

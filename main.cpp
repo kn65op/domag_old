@@ -11,6 +11,13 @@
 
 #include "headers/MainWindow.h"
 #include "headers/LoginWindow.h"
+#include "headers/SQLite3Controller.h"
+
+#define TEST
+
+#ifdef TEST
+#include <iostream>
+#endif
 
 using namespace std;
 
@@ -19,6 +26,12 @@ using namespace std;
  */
 int main(int argc, char** argv)
 {
+#ifdef TEST
+  SQLite3Controller sql("data.sqlite3");
+  cout << sql.open() << "\n";
+  cout << sql.close() << "\n";
+  
+#else
   Gtk::Main gin(argc, argv);
   
   LoginWindow lw;
@@ -33,6 +46,7 @@ int main(int argc, char** argv)
   MainWindow mw;
   
   Gtk::Main::run(mw);
+#endif
 
   return 0;
 }

@@ -7,17 +7,13 @@
 
 #include "../headers/DBController.h"
 
+#include <string>
+
 using namespace std;
 
-DBController::DBController()
+DBController::DBController(string dbname)
 {
+  db_name = dbname;
 }
 
-DBController::DBController(const DBController& orig)
-{
-}
-
-DBController::~DBController()
-{
-}
 
