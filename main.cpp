@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 #ifdef TEST
   SQLite3Controller sql("data.sqlite3");
   cout << sql.open() << "\n";
-  cout << sql.close() << "\n";
+  cout << sql.close() << "\n";  
   
 #else
   Gtk::Main gin(argc, argv);

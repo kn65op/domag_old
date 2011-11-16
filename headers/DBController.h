@@ -13,6 +13,10 @@
 class DBController
 {
 public:
+  /**
+   * Konstruktor przyjmujący nazwę bazy danych.
+   * @param dbname Nazwa bazy dadnych.
+   */
   DBController(std::string dbname);
 private:
   std::string db_name;
