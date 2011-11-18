@@ -9,6 +9,7 @@
 #define	DBCONTROLLER_H
 
 #include <string>
+#include "SQLite3Controller.h"
 
 class DBController
 {
@@ -43,6 +44,7 @@ public:
    */
   bool dropTables();
 private:
+  SQLite3Controller sql;
   std::string db_name;
   bool valid;
 };

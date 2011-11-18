@@ -257,6 +257,14 @@ TEST(SQLiteController, getDoubleFromNColumn)
   EXPECT_THROW(sql->getDoubleFromNColumn(1), WrongDataException);
   EXPECT_EQ(5.5, sql->getDoubleFromNColumn(2));
   EXPECT_FALSE(sql->getNextRecord());
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first(id, a) values (5, 1.0);"));
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first where id = 5;"));
+  EXPECT_THROW(sql->getDoubleFromNColumn(0), NoDataException);
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_TH(0.2, sql->getDoubleFromNColumn(0));
+  EXPECT_EQ(3.0, sql->getDoubleFromNColumn(1));
+  EXPECT_EQ(3.0, sql->getDoubleFromNColumn(1));
+  EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;
 }

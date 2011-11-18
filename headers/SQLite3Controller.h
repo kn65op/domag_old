@@ -74,18 +74,24 @@ public:
   /**
    * Funkcja zwracająca wartość typu int z podanej kolumny z pod aktualnie przetwarzanego wiersza w zapytaniu select.
    * @param n Numer kolumny.
+   * @throws NoDataException Jeśli numer kolumny jest poza zakresem.
+   * @throws WrongDataExceprion Jeśli w danej kolumnie nie znajduje się wartość danego typu.
    * @return Wartość w tej kolumnie
    */
   int getIntFromNColumn(int n) throw(NoDataException, WrongDataException);
   /**
    * Funkcja zwracająca wartość typu std::string z podanej kolumny z pod aktualnie przetwarzanego wiersza w zapytaniu select.
    * @param n Numer kolumny.
+   * @throws NoDataException Jeśli numer kolumny jest poza zakresem.
+   * @throws WrongDataExceprion Jeśli w danej kolumnie nie znajduje się wartość danego typu.
    * @return Wartość w tej kolumnie
    */
   std::string getStringFromNColumn(int n) throw(NoDataException, WrongDataException); //TODO drugi exception
   /**
    * Funkcja zwracająca wartość typu double z podanej kolumny z pod aktualnie przetwarzanego wiersza w zapytaniu select.
    * @param n Numer kolumny.
+   * @throws NoDataException Jeśli numer kolumny jest poza zakresem.
+   * @throws WrongDataExceprion Jeśli w danej kolumnie nie znajduje się wartość danego typu.
    * @return Wartość w tej kolumnie
    */
   double getDoubleFromNColumn(int n) throw(NoDataException, WrongDataException);
