@@ -109,3 +109,54 @@ void SQLite3Controller::clearStatement()
   sqlite3_finalize(stmt);
   stmt = NULL;
 }
+
+int SQLite3Controller::getType(int n) throw(NoDataException)
+{
+  if (stmt)
+  {
+    return sqlite3_column_type(stmt, n);
+  }
+  throw NoDataException();
+}
+
+int SQLite3Controller::getIntFromNColumn(int n) throw(NoDataException, WrongDataException)
+{
+  int type = getType(n);
+  if (type == SQLITE_NULL)
+  {
+    return 0;
+  }
+  if (type == SQLITE_INTEGER) 
+  {
+    return sqlite3_column_int(stmt, n);
+  }
+  throw WrongDataException();
+}
+
+string SQLite3Controller::getStringFromNColumn(int n) throw(NoDataException, WrongDataException)
+{
+  int type = getType(n);
+  if (type == SQLITE_NULL)
+  {
+    return "";
+  }
+  if (type == SQLITE_TEXT) 
+  {
+    return string(sqlite3_column_text(stmt, n));
+  }
+  throw WrongDataException();
+}
+
+double SQLite3Controller::getDoubleFromNColumn(int n) throw(NoDataException, WrongDataException)
+{
+  int type = getType(n);
+  if (type == SQLITE_NULL)
+  {
+    return 0.0;
+  }
+  if (type == SQLITE_FLOAT) 
+  {
+    return sqlite3_column_double(stmt, n);
+  }
+  throw WrongDataException();
+}

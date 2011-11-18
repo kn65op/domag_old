@@ -76,19 +76,19 @@ public:
    * @param n Numer kolumny.
    * @return Wartość w tej kolumnie
    */
-  int getIntFromNColumn(int n) throw(NoDataException);
+  int getIntFromNColumn(int n) throw(NoDataException, WrongDataException);
   /**
    * Funkcja zwracająca wartość typu std::string z podanej kolumny z pod aktualnie przetwarzanego wiersza w zapytaniu select.
    * @param n Numer kolumny.
    * @return Wartość w tej kolumnie
    */
-  std::string getStringFromNColumn(int n) throw(NoDataException); //TODO drugi exception
+  std::string getStringFromNColumn(int n) throw(NoDataException, WrongDataException); //TODO drugi exception
   /**
    * Funkcja zwracająca wartość typu double z podanej kolumny z pod aktualnie przetwarzanego wiersza w zapytaniu select.
    * @param n Numer kolumny.
    * @return Wartość w tej kolumnie
    */
-  double getDoubleFromNColumn(int n) throw(NoDataException);
+  double getDoubleFromNColumn(int n) throw(NoDataException, WrongDataException);
   
   ~SQLite3Controller();
   
@@ -100,6 +100,7 @@ private:
   
   void prepareStatement(std::string query) throw(SQLException);
   void clearStatement();
+  int getType(int n) throw(NoDataException);
 };
 
 #endif	/* SQLITE3CONTROLLER_H */
