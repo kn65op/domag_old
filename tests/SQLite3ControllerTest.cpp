@@ -8,47 +8,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "../headers/SQLite3Controller.h"
-
-// Google GTest Framework Example
-
-// TO INSTALL
-
-// sudo apt-get install libgtest-dev
-
-// sudo apt-get install libgtest0 
-
-
-// To COMPILE IT
-
-// g++ main.cc -lgtest_main
-
-// TO RUN
-
-// ./a.out
-
-//
-
-// TO GET HELP HOW TO RUN
-
-//./a.out --help
-
-//
-
-// TO FILTER TEST EXECUTION
-
-// ./a.out --gtest-filter=SquareRootTest.PositiveNos
-
-// THIS ONLY RUN SINGLE TEST WHICH IS SPECIFIED.
-
-// FOR MORE INFO, use --help at your test program.
-
-//
-
-// to find out more functions of gtest, just go to /usr/include/gtest
-
-// 
-
-
+#include "../headers/Helper.h"
 #include "gtest/gtest.h"
 
 TEST(SQLiteControllerTestConstructor, StringConstructor)
@@ -299,6 +259,19 @@ TEST(getDoubleFromNColumn, gettingInts)
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;
+}
+
+TEST(intToString, one)
+{
+  EXPECT_STREQ("1", Helper::intToString(1).c_str());
+  EXPECT_STREQ("-1", Helper::intToString(-1).c_str());
+  EXPECT_STREQ("234", Helper::intToString(234).c_str());
+  EXPECT_STREQ("-234", Helper::intToString(-234).c_str());
+  EXPECT_STREQ("5", Helper::intToString(5.6).c_str());
+  EXPECT_STREQ("3", Helper::intToString(3.4).c_str());
+  EXPECT_STREQ("0", Helper::intToString(-0).c_str());
+  EXPECT_STREQ("-1", Helper::intToString(-1.1).c_str());
+  EXPECT_STREQ("-2", Helper::intToString(-2.6).c_str());
 }
 
 int main(int argc, char **argv)
