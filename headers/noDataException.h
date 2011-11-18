@@ -10,11 +10,11 @@
 
 #include <exception>
 
-class noDataException : public std::exception
+class NoDataException : public std::exception
 {
 public:
-  noDataException();
-  virtual ~noDataException() throw();
+  NoDataException();
+  virtual ~NoDataException() throw();
 private:
 
 };

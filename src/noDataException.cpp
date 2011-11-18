@@ -9,11 +9,11 @@
 
 using namespace std;
 
-noDataException::noDataException()
+NoDataException::NoDataException()
 {
 }
 
-noDataException::~noDataException() throw()
+NoDataException::~NoDataException() throw()
 {
 }
 

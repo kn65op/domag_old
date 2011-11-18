@@ -50,9 +50,8 @@
 
 
 #include "gtest/gtest.h"
-#include "../headers/SQLite3Controller.h"
 
-TEST(SQLiteControllerTestConstructor, String)
+TEST(SQLiteControllerTestConstructor, StringConstructor)
 {
   SQLite3Controller *sql = new SQLite3Controller("a");
   EXPECT_FALSE(sql->isOpened());
@@ -96,7 +95,7 @@ TEST(executeQuery, CreatingInserting)
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
   EXPECT_THROW(sql->executeQuery("lolek"), SQLException);
-  //EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
+  EXPECT_NO_THROW(sql->executeQuery("DROP TABLE if exists first;"));
   ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE first (a INTEGER PRIMARY KEY);"));
   ASSERT_THROW(sql->executeQuery("CREATE TABLE first (a INTEGER PRIMARY KEY);"), SQLException);
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1);"));
@@ -154,10 +153,10 @@ TEST(getIntFromNColumn, gettingInts)
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1, 2, 3);"));
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2, 5, 6);"));
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
-  EXPECT_THROW(sql->getIntFromNColumn(1), noDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(1), NoDataException);
   EXPECT_TRUE(sql->getNextRecord());
-  EXPECT_THROW(sql->getIntFromNColumn(0), noDataException);
-  EXPECT_THROW(sql->getIntFromNColumn(4), noDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(0), NoDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(4), NoDataException);
   EXPECT_EQ(1, sql->getIntFromNColumn(1));
   EXPECT_EQ(2, sql->getIntFromNColumn(2));
   EXPECT_EQ(3, sql->getIntFromNColumn(3));
@@ -167,10 +166,10 @@ TEST(getIntFromNColumn, gettingInts)
   EXPECT_EQ(6, sql->getIntFromNColumn(3));
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT a, b from first;"));
-  EXPECT_THROW(sql->getIntFromNColumn(1), noDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(1), NoDataException);
   EXPECT_TRUE(sql->getNextRecord());
-  EXPECT_THROW(sql->getIntFromNColumn(0), noDataException);
-  EXPECT_THROW(sql->getIntFromNColumn(3), noDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(0), NoDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(3), NoDataException);
   EXPECT_EQ(2, sql->getIntFromNColumn(1));
   EXPECT_EQ(3, sql->getIntFromNColumn(2));
   EXPECT_TRUE(sql->getNextRecord());
@@ -178,12 +177,12 @@ TEST(getIntFromNColumn, gettingInts)
   EXPECT_EQ(6, sql->getIntFromNColumn(2));
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT b, 'qwe', 4 from first;"));
-  EXPECT_THROW(sql->getIntFromNColumn(1), noDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(1), NoDataException);
   EXPECT_TRUE(sql->getNextRecord());
-  EXPECT_THROW(sql->getIntFromNColumn(0), noDataException);
-  EXPECT_THROW(sql->getIntFromNColumn(4), noDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(0), NoDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(4), NoDataException);
   EXPECT_EQ(2, sql->getIntFromNColumn(1));
-  //EXPECT_EQ(2, sql->getIntFromNColumn(2));
+  EXPECT_THROW(2, sql->getIntFromNColumn(2), wrong);
   EXPECT_EQ(4, sql->getIntFromNColumn(3));
   ASSERT_TRUE(sql->getNextRecord());
   EXPECT_EQ(5, sql->getIntFromNColumn(1));

@@ -8,6 +8,8 @@
 #ifndef WRONGDATAEXCEPTION_H
 #define	WRONGDATAEXCEPTION_H
 
+#include <exception>
+
 class WrongDataException : public std::exception
 {
 public:

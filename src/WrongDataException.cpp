@@ -13,11 +13,7 @@ WrongDataException::WrongDataException()
 {
 }
 
-WrongDataException::WrongDataException(const WrongDataException& orig)
-{
-}
-
-WrongDataException::~WrongDataException()
+WrongDataException::~WrongDataException() throw ()
 {
 }
 
