@@ -10,6 +10,7 @@
 
 #include "../headers/sqlite3.h"
 #include <string>
+#include "../headers/SQLException.h"
 
 /**
  * Klasa obsługująca sqlite3. Przydatna, gdy chcemy zbudować obsługę własnej bazy danych.
@@ -32,11 +33,34 @@ public:
    * @return true jeśli udało się zamknąć bażę, false w przeciwnym wypadku
    */
   bool close();
-  bool executeQuery();
+  /**
+   * Funkcja wkonująca podane zapytanie.
+   * @param query Zapytanie do wykonania
+   * @return true jeśli zapytanie zostało zakończone powodzeniem, false w przeciwnym wypadku
+   */
+  bool executeQuery(std::string query) throw(SQLException);
   bool executeSelectQuery();
   bool getNextRecord();
+  /**
+   * Funkcja zwracająca nazwę używanej bazy danych.
+   * @return Nazwa aktualnie używanej bazy danych.
+   */
+  std::string getDb_name();
+  /**
+   * Funkcja ustawiająca używaną bazę danych.
+   * @param Nazwa bazy danych, którą chcemy ustawić.
+   */
+  void setDb_name(std::string);
+  /**
+   * Funkcja zwracająca informację czy dana baza danych jest otwarta.
+   * @return true jeśli jest otwarta, false w przeciwnym wypadku.
+   */
+  bool isOpened(void);
+  
+  ~SQLite3Controller();
   
 private:
+  bool opened;
   std::string db_name;
   sqlite3* db_handle;
   //TODO dodaj bool opened

@@ -34,3 +34,24 @@ bool SQLite3Controller::close()
   }
   return false;
 }
+
+string SQLite3Controller::getDb_name(void)
+{
+  return db_name;
+}
+
+void SQLite3Controller::setDb_name(string db_name)
+{
+  this->db_name = db_name;
+}
+
+bool SQLite3Controller::isOpened(void)
+{
+  return opened;
+}
+
+
+SQLite3Controller::~SQLite3Controller()
+{
+  close();
+}
