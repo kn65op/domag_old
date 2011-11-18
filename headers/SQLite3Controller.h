@@ -56,6 +56,10 @@ public:
    */
   std::string getDb_name();
   /**
+   * Funkcja zamykająca dostęp do bazy, jeśli nie chcemy pobierać więcej rekordów.
+   */
+  void clearSelectQuery();
+  /**
    * Funkcja ustawiająca używaną bazę danych.
    * @param Nazwa bazy danych, którą chcemy ustawić.
    */
@@ -75,6 +79,7 @@ private:
   sqlite3_stmt* stmt;
   
   void prepareStatement(std::string query) throw(SQLException);
+  void clearStatement();
 };
 
 #endif	/* SQLITE3CONTROLLER_H */

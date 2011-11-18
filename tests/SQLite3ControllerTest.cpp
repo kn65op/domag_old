@@ -96,12 +96,15 @@ TEST(executeQuery, CreatingInserting)
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
   EXPECT_THROW(sql->executeQuery("lolek"), SQLException);
-  ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE first (id integer primary key);"));
+  EXPECT_NO_THROW(sql->executeQuery("DROP TABLE if exist first ;"));
+  ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE first (a INTEGER PRIMARY KEY);"));
+  ASSERT_THROW(sql->executeQuery("CREATE TABLE first (a INTEGER PRIMARY KEY);"), SQLException);
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1);"));
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2);"));
   ASSERT_THROW(sql->executeQuery("INSERT INTO first values (1);"), SQLException);
   ASSERT_THROW(sql->executeQuery("INSERT INTO b values (2);"), SQLException);
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
+  EXPECT_THROW(sql->executeQuery("DROP TABLE first;"), SQLException);
   delete sql;
 }
 
@@ -115,20 +118,24 @@ TEST(executeSelectQuery, selecting)
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2);"));
   EXPECT_THROW(sql->executeSelectQuery("SELECT lol FROM first;"), SQLException);
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
+  EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;
 }
 
-TEST(executeSelectQuery, gettingRows)
+TEST(getNextRecord, gettingRows)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
+  EXPECT_FALSE(sql->getNextRecord());
   ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE first (id integer primary key);"));
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1);"));
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2);"));
+  EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
   EXPECT_TRUE(sql->getNextRecord());
   EXPECT_TRUE(sql->getNextRecord());
   EXPECT_FALSE(sql->getNextRecord());
+  EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;
 }
 
