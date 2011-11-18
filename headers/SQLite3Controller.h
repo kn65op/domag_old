@@ -26,7 +26,7 @@ public:
    */
   SQLite3Controller(std::string dbname);
   /**
-   * Funkcja otwierająca bazę danych do obsługi. Musi być wywołana przed wykonaniem zapytań.
+   * Funkcja otwierająca bazę danych do obsługi. Musi być wywołana przed wykonaniem zapytań. Jeśli nazwa pliku, w którym ma się znajdować baza danych to nie uda się otworzyć bazy danych.
    * @return  true jeśli udało się otworzyć bazę, false w przeciwnym wypadku
    */
   bool open();

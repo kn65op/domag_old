@@ -23,14 +23,13 @@ bool DBController::checkTables()
 {
   try
   {
-    string check_articles = "select id, name, grup_id form articles;";
+    string check_articles = "select id, name, group_id from articles;";
     sql.executeSelectQuery(check_articles);
     sql.clearSelectQuery();
-    string check_groups = "select id, name form groups;";
+    string check_groups = "select id, name from groups;";
     sql.executeSelectQuery(check_groups);
     sql.clearSelectQuery();
-  }
-  catch (SQLException sql)
+  } catch (SQLException sql)
   {
     return false;
   }
@@ -41,21 +40,21 @@ bool DBController::createTables()
 {
   try
   {
-    string create_articles = "create table articles"
-            "("
-            " id integer primary key autoincrement,"
-            " name text not null,"
-            " group_id not null"
-            ");";
-    sql.executeQuery(create_articles);
+    
     string create_groups = "create table groups"
             "("
             " id integer primary key autoincrement,"
             " name text not null"
             ");";
     sql.executeQuery(create_groups);
-  }
-  catch (SQLException)
+    string create_articles = "create table articles"
+            "("
+            " id integer primary key autoincrement,"
+            " name text not null,"
+            " group_id not null references gorups(id)"
+            ");";
+    sql.executeQuery(create_articles);
+  } catch (SQLException)
   {
     return false;
   }
@@ -64,14 +63,13 @@ bool DBController::createTables()
 
 bool DBController::dropTables()
 {
-    try
+  try
   {
     string drop_articles = "drop table if exists articles;";
     sql.executeQuery(drop_articles);
     string drop_groups = "drop table if exists groups;";
     sql.executeQuery(drop_groups);
-  }
-  catch (SQLException)
+  } catch (SQLException)
   {
     return false;
   }
@@ -85,5 +83,8 @@ bool DBController::isValid()
 
 DBController::~DBController()
 {
-  sql.close();
+  if (valid)
+  {
+    sql.close();
+  }
 }

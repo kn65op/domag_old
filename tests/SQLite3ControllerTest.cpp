@@ -37,7 +37,7 @@ TEST(SQLiteController, open)
   delete sql2;
   delete sql;
   sql = new SQLite3Controller("");
-  EXPECT_TRUE(sql->open());
+  EXPECT_FALSE(sql->open());
   delete sql;
 }
 
@@ -308,17 +308,16 @@ TEST(Helper, intToString)
 TEST(DBController, Konstruktor)
 {
   DBController *sql = NULL;
-  EXPECT_NO_THROW(new DBController(""));
+  EXPECT_NO_THROW(sql = new DBController(""));
   delete sql;  
-  EXPECT_NO_THROW(new DBController("test.sqlite3"));
+  EXPECT_NO_THROW(sql = new DBController("test.sqlite3"));
   delete sql;  
 }
 
 TEST(DBController, dropTables)
 {
   DBController *sql = NULL;
-  ASSERT_NO_THROW(new DBController("test.sqlite3"));
-  std::cout << "QWE";
+  ASSERT_NO_THROW(sql = new DBController("test.sqlite3"));
   ASSERT_TRUE(sql->isValid());
   EXPECT_TRUE(sql->dropTables());
   EXPECT_TRUE(sql->createTables());
@@ -330,7 +329,7 @@ TEST(DBController, dropTables)
 TEST(DBController, createTables)
 {
   DBController *sql = NULL;
-  ASSERT_NO_THROW(new DBController("test.sqlite3"));
+  ASSERT_NO_THROW(sql = new DBController("test.sqlite3"));
   ASSERT_TRUE(sql->isValid());
   ASSERT_TRUE(sql->dropTables());
   EXPECT_TRUE(sql->createTables());
@@ -343,7 +342,7 @@ TEST(DBController, createTables)
 TEST(DBController, checkTables)
 {
   DBController *sql = NULL;
-  ASSERT_NO_THROW(new DBController("test.sqlite3"));
+  ASSERT_NO_THROW(sql = new DBController("test.sqlite3"));
   ASSERT_TRUE(sql->dropTables());
   EXPECT_FALSE(sql->checkTables());
   ASSERT_TRUE(sql->createTables());
@@ -355,10 +354,10 @@ TEST(DBController, checkTables)
 TEST(DBController, isValid)
 {
   DBController *sql = NULL;
-  ASSERT_NO_THROW(new DBController("test.sqlite3"));
+  ASSERT_NO_THROW(sql = new DBController("test.sqlite3"));
   EXPECT_TRUE(sql->isValid());
   delete sql;
-  ASSERT_NO_THROW(new DBController(""));
+  ASSERT_NO_THROW(sql = new DBController(""));
   EXPECT_FALSE(sql->isValid());
   delete sql;
 }

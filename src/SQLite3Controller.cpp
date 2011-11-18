@@ -24,6 +24,10 @@ SQLite3Controller::SQLite3Controller(string dbname)
 
 bool SQLite3Controller::open()
 {
+  if (db_name == "")
+  {
+    return false;
+  }
   if (opened)
   {
     return opened;
