@@ -96,7 +96,7 @@ TEST(executeQuery, CreatingInserting)
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
   EXPECT_THROW(sql->executeQuery("lolek"), SQLException);
-  EXPECT_NO_THROW(sql->executeQuery("DROP TABLE if exist first ;"));
+  //EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE first (a INTEGER PRIMARY KEY);"));
   ASSERT_THROW(sql->executeQuery("CREATE TABLE first (a INTEGER PRIMARY KEY);"), SQLException);
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1);"));
@@ -117,6 +117,7 @@ TEST(executeSelectQuery, selecting)
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1);"));
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2);"));
   EXPECT_THROW(sql->executeSelectQuery("SELECT lol FROM first;"), SQLException);
+  EXPECT_THROW(sql->executeSelectQuery("SELECT * FROM afirst;"), SQLException);
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;
@@ -134,6 +135,60 @@ TEST(getNextRecord, gettingRows)
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
   EXPECT_TRUE(sql->getNextRecord());
   EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_FALSE(sql->getNextRecord());
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first where id = 3;"));
+  EXPECT_FALSE(sql->getNextRecord());
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first where id = 1;"));
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_FALSE(sql->getNextRecord());
+  EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
+  delete sql;
+}
+
+TEST(getIntFromNColumn, gettingInts)
+{
+  SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
+  ASSERT_TRUE(sql->open());
+  EXPECT_FALSE(sql->getNextRecord());
+  ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE first (id integer primary key, a integer, b integer);"));
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1, 2, 3);"));
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2, 5, 6);"));
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
+  EXPECT_THROW(sql->getIntFromNColumn(1), noDataException);
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_THROW(sql->getIntFromNColumn(0), noDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(4), noDataException);
+  EXPECT_EQ(1, sql->getIntFromNColumn(1));
+  EXPECT_EQ(2, sql->getIntFromNColumn(2));
+  EXPECT_EQ(3, sql->getIntFromNColumn(3));
+  ASSERT_TRUE(sql->getNextRecord());
+  EXPECT_EQ(2, sql->getIntFromNColumn(1));
+  EXPECT_EQ(5, sql->getIntFromNColumn(2));
+  EXPECT_EQ(6, sql->getIntFromNColumn(3));
+  EXPECT_FALSE(sql->getNextRecord());
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT a, b from first;"));
+  EXPECT_THROW(sql->getIntFromNColumn(1), noDataException);
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_THROW(sql->getIntFromNColumn(0), noDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(3), noDataException);
+  EXPECT_EQ(2, sql->getIntFromNColumn(1));
+  EXPECT_EQ(3, sql->getIntFromNColumn(2));
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_EQ(5, sql->getIntFromNColumn(1));
+  EXPECT_EQ(6, sql->getIntFromNColumn(2));
+  EXPECT_FALSE(sql->getNextRecord());
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT b, 'qwe', 4 from first;"));
+  EXPECT_THROW(sql->getIntFromNColumn(1), noDataException);
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_THROW(sql->getIntFromNColumn(0), noDataException);
+  EXPECT_THROW(sql->getIntFromNColumn(4), noDataException);
+  EXPECT_EQ(2, sql->getIntFromNColumn(1));
+  //EXPECT_EQ(2, sql->getIntFromNColumn(2));
+  EXPECT_EQ(4, sql->getIntFromNColumn(3));
+  ASSERT_TRUE(sql->getNextRecord());
+  EXPECT_EQ(5, sql->getIntFromNColumn(1));
+  //EXPECT_EQ(5, sql->getIntFromNColumn(2)); //TODO drugi exception
+  EXPECT_EQ(4, sql->getIntFromNColumn(3));
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;

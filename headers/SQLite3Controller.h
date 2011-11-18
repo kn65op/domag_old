@@ -11,6 +11,7 @@
 #include "../headers/sqlite3.h"
 #include <string>
 #include "../headers/SQLException.h"
+#include "../headers/noDataException.h"
 
 /**
  * Klasa obsługująca sqlite3. Przydatna, gdy chcemy zbudować obsługę własnej bazy danych.
@@ -69,6 +70,24 @@ public:
    * @return true jeśli jest otwarta, false w przeciwnym wypadku.
    */
   bool isOpened(void);
+  /**
+   * Funkcja zwracająca wartość typu int z podanej kolumny z pod aktualnie przetwarzanego wiersza w zapytaniu select.
+   * @param n Numer kolumny.
+   * @return Wartość w tej kolumnie
+   */
+  int getIntFromNColumn(int n) throw(noDataException);
+  /**
+   * Funkcja zwracająca wartość typu std::string z podanej kolumny z pod aktualnie przetwarzanego wiersza w zapytaniu select.
+   * @param n Numer kolumny.
+   * @return Wartość w tej kolumnie
+   */
+  std::string getStringFromNColumn(int n) throw(noDataException); //TODO drugi exception
+  /**
+   * Funkcja zwracająca wartość typu double z podanej kolumny z pod aktualnie przetwarzanego wiersza w zapytaniu select.
+   * @param n Numer kolumny.
+   * @return Wartość w tej kolumnie
+   */
+  double getDoubleFromNColumn(int n) throw(noDataException);
   
   ~SQLite3Controller();
   
