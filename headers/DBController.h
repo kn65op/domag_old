@@ -28,8 +28,8 @@ public:
    */
   bool checkTables();
   /**
-   * Funkcja tworząca bazę danych, która jest wymagana przez aplikację. Aktualna zawartość bazy danych jest kasowana.
-   * @return true jeśli udało się stworzyć bazę, false w przeciwnym wypadku.
+   * Funkcja tworząca bazę danych, która jest wymagana przez aplikację. Jeśli w bazie jest choć jedna tabela do utworzenia to należy najpierw usunąć stare tabele.
+   * @return true jeśli udało się stworzyć bazę, false w przeciwnym wypadku (również jeśli chociaż jedna tabela do stworzenia istnieje).
    */
   bool createTables();
   /**
@@ -37,6 +37,11 @@ public:
    * @return true jeśli baza działa prawidłowo, false w przeciwnym wypadku.
    */
   bool isValid();
+  /**
+   * Funkcja usuwająca dane oraz tabele z bazy. Jeśli baza nie posiada tabel, to wciąż jest to uznawane za powodzenie operacji.
+   * @return true w przypadku powodzenia, false w przeciwnym wypadku (błędu bazy).
+   */
+  bool dropTables();
 private:
   std::string db_name;
   bool valid;

@@ -10,6 +10,7 @@
 #include "../headers/SQLite3Controller.h"
 #include "../headers/Helper.h"
 #include "gtest/gtest.h"
+#include "headers/DBController.h"
 
 /**
  * SQLiteController
@@ -280,7 +281,62 @@ TEST(Helper, intToString)
  * DBController
  */
 
-//TEST()
+TEST(DBController, Konstruktor)
+{
+  DBController *sql = NULL;
+  EXPECT_NO_THROW(new DBController(""))
+  delete sql;  
+  EXPECT_NO_THROW(new DBController("test.sqlite3"))
+  delete sql;  
+}
+
+TEST(DBController, dropTables)
+{
+  DBController *sql = NULL;
+  ASSERT_NO_THROW(new DBController("test.sqlite3"));
+  ASSERT_TRUE(sql->isValid());
+  EXPECT_TRUE(sql->dropTables());
+  EXPECT_TRUE(sql->createTables());
+  EXPECT_TRUE(sql->dropTables());
+  EXPECT_FALSE(sql->checkTables());
+  delete sql;
+}
+
+TEST(DBController, createTables)
+{
+  DBController *sql = NULL;
+  ASSERT_NO_THROW(new DBController("test.sqlite3"));
+  ASSERT_TRUE(sql->isValid());
+  ASSERT_TRUE(sql->dropTables());
+  EXPECT_TRUE(sql->createTables());
+  EXPECT_FALSE(sql->createTables());
+  EXPECT_TRUE(sql->dropTables());
+  EXPECT_TRUE(sql->createTables());
+  EXPECT_TRUE(sql->dropTables());
+  delete sql;
+}
+TEST(DBController, checkTables)
+{
+  DBController *sql = NULL;
+  ASSERT_NO_THROW(new DBController("test.sqlite3"));
+  ASSERT_TRUE(sql->dropTables());
+  EXPECT_FALSE(sql->checkTables());
+  ASSERT_TRUE(sql->createTables());
+  EXPECT_TRUE(sql->checkTables());
+  ASSERT_TRUE(sql->dropTables());
+  EXPECT_FALSE(sql->checkTables());
+  delete sql;
+}
+TEST(DBController, isValid)
+{
+  DBController *sql = NULL;
+  ASSERT_NO_THROW(new DBController("test.sqlite3"));
+  EXPECT_TRUE(sql->isValid());
+  delete sql;
+  ASSERT_NO_THROW(new DBController(""));
+  EXPECT_FALSE(sql->isValid());
+  delete sql;
+}
 
 int main(int argc, char **argv)
 {
