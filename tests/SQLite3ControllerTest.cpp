@@ -318,6 +318,7 @@ TEST(DBController, dropTables)
 {
   DBController *sql = NULL;
   ASSERT_NO_THROW(new DBController("test.sqlite3"));
+  std::cout << "QWE";
   ASSERT_TRUE(sql->isValid());
   EXPECT_TRUE(sql->dropTables());
   EXPECT_TRUE(sql->createTables());
