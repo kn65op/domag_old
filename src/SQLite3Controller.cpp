@@ -19,6 +19,7 @@ SQLite3Controller::SQLite3Controller(string dbname)
   stmt = NULL;
   db_handle = NULL;
   opened = false;
+  is_row = false;
 }
 
 bool SQLite3Controller::open()
@@ -93,6 +94,7 @@ bool SQLite3Controller::getNextRecord()
 {
   if (stmt && sqlite3_step(stmt) == SQLITE_ROW)
   {
+    is_row = true;
     return true;
   }
   clearStatement();
@@ -108,53 +110,55 @@ void SQLite3Controller::clearStatement()
 {
   sqlite3_finalize(stmt);
   stmt = NULL;
+  is_row = false;
 }
 
-int SQLite3Controller::getType(int n) throw(NoDataException)
+int SQLite3Controller::getType(int n) throw (NoDataException)
 {
-  if (stmt)
+  if (n < 0 || n > sqlite3_column_count(stmt) - 1) throw NoDataException();
+  if (is_row)
   {
     return sqlite3_column_type(stmt, n);
   }
   throw NoDataException();
 }
 
-int SQLite3Controller::getIntFromNColumn(int n) throw(NoDataException, WrongDataException)
+int SQLite3Controller::getIntFromNColumn(int n) throw (NoDataException, WrongDataException)
 {
   int type = getType(n);
   if (type == SQLITE_NULL)
   {
     return 0;
   }
-  if (type == SQLITE_INTEGER) 
+  if (type == SQLITE_INTEGER)
   {
     return sqlite3_column_int(stmt, n);
   }
   throw WrongDataException();
 }
 
-string SQLite3Controller::getStringFromNColumn(int n) throw(NoDataException, WrongDataException)
+string SQLite3Controller::getStringFromNColumn(int n) throw (NoDataException, WrongDataException)
 {
   int type = getType(n);
   if (type == SQLITE_NULL)
   {
     return "";
   }
-  if (type == SQLITE_TEXT) 
+  if (type == SQLITE_TEXT)
   {
-    return string(sqlite3_column_text(stmt, n));
+    return string(reinterpret_cast<const char*> (sqlite3_column_text(stmt, n)));
   }
   throw WrongDataException();
 }
 
-double SQLite3Controller::getDoubleFromNColumn(int n) throw(NoDataException, WrongDataException)
+double SQLite3Controller::getDoubleFromNColumn(int n) throw (NoDataException, WrongDataException)
 {
   int type = getType(n);
   if (type == SQLITE_NULL)
   {
     return 0.0;
   }
-  if (type == SQLITE_FLOAT) 
+  if (type == SQLITE_FLOAT)
   {
     return sqlite3_column_double(stmt, n);
   }

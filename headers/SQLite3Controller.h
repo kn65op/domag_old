@@ -94,6 +94,7 @@ public:
   
 private:
   bool opened;
+  bool is_row;
   std::string db_name;
   sqlite3* db_handle;
   sqlite3_stmt* stmt;
