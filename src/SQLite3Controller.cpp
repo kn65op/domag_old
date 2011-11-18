@@ -7,6 +7,7 @@
 
 #include "../headers/SQLite3Controller.h"
 #include "../headers/sqlite3.h"
+#include "../headers/Helper.h"
 
 #include <string>
 
@@ -54,4 +55,44 @@ bool SQLite3Controller::isOpened(void)
 SQLite3Controller::~SQLite3Controller()
 {
   close();
+}
+
+void SQLite3Controller::executeQuery(std::string query) throw (SQLException)
+{
+  prepareStatement(query);
+  int n = sqlite3_step(stmt);
+  if (n != SQLITE_DONE)
+  {
+    throw SQLException("Don't know");
+  }
+  sqlite3_finalize(stmt);
+}
+
+void SQLite3Controller::executeSelectQuery(std::string query) throw (SQLException)
+{
+  prepareStatement(query);
+}
+
+void SQLite3Controller::prepareStatement(std::string query) throw (SQLException)
+{
+  sqlite3_prepare_v2(db_handle, query.c_str(), 0, &stmt, NULL);
+  if (!stmt)
+  {
+    throw SQLException("Bład");
+  }
+  int n = sqlite3_step(stmt);
+  if (n != SQLITE_OK)
+  {
+    throw SQLException(Helper::intToString(n));
+  }
+}
+
+bool SQLite3Controller::getNextRecord()
+{
+  if (sqlite3_step(stmt) == SQLITE_ROW)
+  {
+    return true;
+  }
+  sqlite3_finalize(stmt);
+  return false;
 }

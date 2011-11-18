@@ -91,6 +91,47 @@ TEST(Close, ValidDatabases)
   delete sql;
 }
 
+TEST(executeQuery, CreatingInserting)
+{
+  SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
+  ASSERT_TRUE(sql->open());
+  EXPECT_THROW(sql->executeQuery("lolek"), SQLException);
+  ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE first (id integer primary key);"));
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1);"));
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2);"));
+  ASSERT_THROW(sql->executeQuery("INSERT INTO first values (1);"), SQLException);
+  ASSERT_THROW(sql->executeQuery("INSERT INTO b values (2);"), SQLException);
+  EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
+  delete sql;
+}
+
+TEST(executeSelectQuery, selecting)
+{
+  SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
+  ASSERT_TRUE(sql->open());
+  EXPECT_THROW(sql->executeSelectQuery("lolek"), SQLException);
+  ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE first (id integer primary key);"));
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1);"));
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2);"));
+  EXPECT_THROW(sql->executeSelectQuery("SELECT lol FROM first;"), SQLException);
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
+  delete sql;
+}
+
+TEST(executeSelectQuery, gettingRows)
+{
+  SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
+  ASSERT_TRUE(sql->open());
+  ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE first (id integer primary key);"));
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1);"));
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2);"));
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_FALSE(sql->getNextRecord());
+  delete sql;
+}
+
 int main(int argc, char **argv)
 {
 

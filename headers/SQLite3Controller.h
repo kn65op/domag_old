@@ -34,12 +34,21 @@ public:
    */
   bool close();
   /**
-   * Funkcja wkonująca podane zapytanie.
+   * Funkcja wkonująca podane zapytanie. Jeśli wykonanie nie uda się, zostanie wyrzucony wyjątek SQLException z opisem błedu.
    * @param query Zapytanie do wykonania
-   * @return true jeśli zapytanie zostało zakończone powodzeniem, false w przeciwnym wypadku
+   * @throws SQLException w przypadku błędu. 
    */
-  bool executeQuery(std::string query) throw(SQLException);
-  bool executeSelectQuery();
+  void executeQuery(std::string query) throw(SQLException);
+  /**
+   * Funkcja wkonująca podane zapytanie typu select. Aby otrzymać pierwszy i kolejne rekordy należy zastosować metodę getNextRecord. Jeśli wykonanie nie uda się, zostanie wyrzucony wyjątek SQLException z opisem błedu.
+   * @param query Zapytanie do wykonania
+   * @throws SQLException w przypadku błędu. 
+   */
+  void executeSelectQuery(std::string query) throw(SQLException);
+  /**
+   * Funkcja pozwalająca na otrzymanie kolejnych rekordów dla zapytań typu select. Należy wywołać tą metodę przed pierszym pobraniem danych.
+   * @return true jeśli są jeszcze jakieś rekordy do przetworzenia, false jeśli nie ma już więcej rekordów.
+   */
   bool getNextRecord();
   /**
    * Funkcja zwracająca nazwę używanej bazy danych.
@@ -63,7 +72,9 @@ private:
   bool opened;
   std::string db_name;
   sqlite3* db_handle;
-  //TODO dodaj bool opened
+  sqlite3_stmt* stmt;
+  
+  void prepareStatement(std::string query) throw(SQLException);
 };
 
 #endif	/* SQLITE3CONTROLLER_H */
