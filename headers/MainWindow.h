@@ -13,7 +13,13 @@
 class MainWindow : public Gtk::Window
 {
 public:
+  /**
+   * Konstruktor inicjujący wygląd graficzny.
+   */
   MainWindow();
+  /**
+   * Destruktor.
+   */
   virtual ~MainWindow();
 private:
   std::string program_name;

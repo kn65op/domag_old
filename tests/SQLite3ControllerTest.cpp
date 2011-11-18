@@ -11,6 +11,9 @@
 #include "../headers/Helper.h"
 #include "gtest/gtest.h"
 
+/**
+ * SQLiteController
+ */
 TEST(SQLiteControllerTestConstructor, StringConstructor)
 {
   SQLite3Controller *sql = new SQLite3Controller("a");
@@ -21,14 +24,14 @@ TEST(SQLiteControllerTestConstructor, StringConstructor)
   delete sql;
 }
 
-TEST(Open, ValidDatabases)
+TEST(open, ValidDatabases)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   EXPECT_TRUE(sql->open());
   delete sql;
 }
 
-TEST(Open, InvalidDatabases)
+TEST(open, InvalidDatabases)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   EXPECT_TRUE(sql->open());
@@ -261,6 +264,9 @@ TEST(getDoubleFromNColumn, gettingInts)
   delete sql;
 }
 
+/**
+ * Helper
+ */
 TEST(intToString, one)
 {
   EXPECT_STREQ("1", Helper::intToString(1).c_str());

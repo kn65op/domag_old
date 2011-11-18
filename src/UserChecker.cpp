@@ -19,10 +19,6 @@ UserChecker::UserChecker()
   filename = "Data/accounts";
 }
 
-UserChecker::UserChecker(const UserChecker& orig)
-{
-}
-
 UserChecker::~UserChecker()
 {
 }

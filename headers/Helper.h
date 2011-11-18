@@ -13,6 +13,11 @@
 class Helper
 {
 public:
+  /**
+   * Funkcja zamieniająca integer na string.
+   * @param n Integer, który chcemy zamienić.
+   * @return String odpowiadający tej liczbie. Jeśli przekazana liczba nie jest całkowita to następuje obcięcie (np. z 5.6 tworzone jest "5").
+   */
   static std::string intToString(int n);
 private:
   Helper();

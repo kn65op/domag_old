@@ -14,8 +14,19 @@
 class SQLException :public std::exception
 {
 public:
-  SQLException(std::string);
+  /**
+   * Kontruktor przyjmujący stringa.
+   * @param  error Informacja dla użytkownika co było przyczyną błedu.
+   */
+  SQLException(std::string error);
+  /**
+   * Destruktor.
+   */
   ~SQLException() throw();
+  /**
+   * Funkcja pozwalająca odczytać komunikat błedu.
+   * @return Komunikat błedu.
+   */
   std::string getError();
 private:
   std::string error;

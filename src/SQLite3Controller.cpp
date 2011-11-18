@@ -44,7 +44,7 @@ bool SQLite3Controller::close()
   return false;
 }
 
-string SQLite3Controller::getDb_name(void)
+/*string SQLite3Controller::getDb_name(void)
 {
   return db_name;
 }
@@ -52,7 +52,7 @@ string SQLite3Controller::getDb_name(void)
 void SQLite3Controller::setDb_name(string db_name)
 {
   this->db_name = db_name;
-}
+}*/
 
 bool SQLite3Controller::isOpened(void)
 {

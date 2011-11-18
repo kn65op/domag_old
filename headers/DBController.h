@@ -18,6 +18,9 @@ public:
    * @param dbname Nazwa bazy dadnych.
    */
   DBController(std::string dbname);
+  
+  int a(int b);
+  ~DBController();
 private:
   std::string db_name;
 };

@@ -14,9 +14,18 @@
 class LoginWindow : public Gtk::Window
 {
 public:
+  /**
+   * Konstruktor inicjujący grafike.
+   */
   LoginWindow();
+  /**
+   * Destruktor.
+   */
   virtual ~LoginWindow();
-  
+  /**
+   * Funkcja zwracajaca wynik logowania.
+   * @return true, jeśli użytkownik się zalogował, false w przeciwnym wypadku.
+   */
   bool isCorrect();
 private:
   std::string program_name;

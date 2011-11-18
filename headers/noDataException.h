@@ -13,7 +13,13 @@
 class NoDataException : public std::exception
 {
 public:
+  /**
+   * Kontruktor.
+   */
   NoDataException();
+  /**
+   * Destruktor.
+   */
   virtual ~NoDataException() throw();
 private:
 

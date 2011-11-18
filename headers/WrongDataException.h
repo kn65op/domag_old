@@ -13,7 +13,13 @@
 class WrongDataException : public std::exception
 {
 public:
+  /**
+   * Konstruktor.
+   */
   WrongDataException();
+  /**
+   * Destruktor.
+   */
   virtual ~WrongDataException() throw();
 private:
 
