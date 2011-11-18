@@ -153,6 +153,14 @@ TEST(SQLiteController, getIntFromNColumn)
   EXPECT_THROW(sql->getIntFromNColumn(1), WrongDataException);
   EXPECT_EQ(4, sql->getIntFromNColumn(2));
   EXPECT_FALSE(sql->getNextRecord());
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first(id, a) values (5, 20);"));
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first where id = 5;"));
+  EXPECT_THROW(sql->getIntFromNColumn(0), NoDataException);
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_EQ(5, sql->getIntFromNColumn(0));
+  EXPECT_EQ(20, sql->getIntFromNColumn(1));
+  EXPECT_EQ(0, sql->getIntFromNColumn(2));
+  EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;
 }
@@ -203,6 +211,14 @@ TEST(SQLiteController, getStringFromNColumn)
   EXPECT_STREQ("asd", sql->getStringFromNColumn(0).c_str());
   EXPECT_THROW(sql->getStringFromNColumn(2), WrongDataException);
   EXPECT_STREQ("qwe", sql->getStringFromNColumn(1).c_str());
+  EXPECT_FALSE(sql->getNextRecord());
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first(id, a) values (5, '1');"));
+  EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first where id = 5;"));
+  EXPECT_THROW(sql->getStringFromNColumn(0), NoDataException);
+  EXPECT_TRUE(sql->getNextRecord());
+  EXPECT_THROW(sql->getStringFromNColumn(0), WrongDataException);
+  EXPECT_STREQ("1", sql->getStringFromNColumn(1).c_str());
+  EXPECT_STREQ("", sql->getStringFromNColumn(2).c_str());
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;
@@ -261,9 +277,9 @@ TEST(SQLiteController, getDoubleFromNColumn)
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first where id = 5;"));
   EXPECT_THROW(sql->getDoubleFromNColumn(0), NoDataException);
   EXPECT_TRUE(sql->getNextRecord());
-  EXPECT_TH(0.2, sql->getDoubleFromNColumn(0));
-  EXPECT_EQ(3.0, sql->getDoubleFromNColumn(1));
-  EXPECT_EQ(3.0, sql->getDoubleFromNColumn(1));
+  EXPECT_EQ(5.0, sql->getDoubleFromNColumn(0));
+  EXPECT_EQ(1.0, sql->getDoubleFromNColumn(1));
+  EXPECT_EQ(0.0, sql->getDoubleFromNColumn(2));
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;
@@ -292,9 +308,9 @@ TEST(Helper, intToString)
 TEST(DBController, Konstruktor)
 {
   DBController *sql = NULL;
-  EXPECT_NO_THROW(new DBController(""))
+  EXPECT_NO_THROW(new DBController(""));
   delete sql;  
-  EXPECT_NO_THROW(new DBController("test.sqlite3"))
+  EXPECT_NO_THROW(new DBController("test.sqlite3"));
   delete sql;  
 }
 
