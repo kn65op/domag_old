@@ -14,7 +14,7 @@
 /**
  * SQLiteController
  */
-TEST(SQLiteControllerTestConstructor, StringConstructor)
+TEST(SQLiteController, SQLiteControllerTestConstructor)
 {
   SQLite3Controller *sql = new SQLite3Controller("a");
   EXPECT_FALSE(sql->isOpened());
@@ -22,16 +22,12 @@ TEST(SQLiteControllerTestConstructor, StringConstructor)
   sql = new SQLite3Controller("");
   EXPECT_FALSE(sql->isOpened());
   delete sql;
-}
-
-TEST(open, ValidDatabases)
-{
-  SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
+  sql = new SQLite3Controller("test.sqlite3");
   EXPECT_TRUE(sql->open());
   delete sql;
 }
 
-TEST(open, InvalidDatabases)
+TEST(SQLiteController, open)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   EXPECT_TRUE(sql->open());
@@ -44,7 +40,7 @@ TEST(open, InvalidDatabases)
   delete sql;
 }
 
-TEST(Close, ValidDatabases)
+TEST(SQLiteController, close)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   EXPECT_FALSE(sql->close());
@@ -53,7 +49,7 @@ TEST(Close, ValidDatabases)
   delete sql;
 }
 
-TEST(executeQuery, CreatingInserting)
+TEST(SQLiteController, executeQuery)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
@@ -70,7 +66,7 @@ TEST(executeQuery, CreatingInserting)
   delete sql;
 }
 
-TEST(executeSelectQuery, selecting)
+TEST(SQLiteController, executeSelectQuery)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
@@ -85,7 +81,7 @@ TEST(executeSelectQuery, selecting)
   delete sql;
 }
 
-TEST(getNextRecord, gettingRows)
+TEST(SQLiteController, getNextRecord)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
@@ -107,7 +103,7 @@ TEST(getNextRecord, gettingRows)
   delete sql;
 }
 
-TEST(getIntFromNColumn, gettingInts)
+TEST(SQLiteController, getIntFromNColumn)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
@@ -160,7 +156,7 @@ TEST(getIntFromNColumn, gettingInts)
   delete sql;
 }
 
-TEST(getStringFromNColumn, gettingStrings)
+TEST(SQLiteController, getStringFromNColumn)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
@@ -211,7 +207,7 @@ TEST(getStringFromNColumn, gettingStrings)
   delete sql;
 }
 
-TEST(getDoubleFromNColumn, gettingInts)
+TEST(SQLiteController, getDoubleFromNColumn)
 {
   SQLite3Controller *sql = new SQLite3Controller("test.sqlite3");
   ASSERT_TRUE(sql->open());
@@ -267,7 +263,7 @@ TEST(getDoubleFromNColumn, gettingInts)
 /**
  * Helper
  */
-TEST(intToString, one)
+TEST(Helper, intToString)
 {
   EXPECT_STREQ("1", Helper::intToString(1).c_str());
   EXPECT_STREQ("-1", Helper::intToString(-1).c_str());
@@ -279,6 +275,12 @@ TEST(intToString, one)
   EXPECT_STREQ("-1", Helper::intToString(-1.1).c_str());
   EXPECT_STREQ("-2", Helper::intToString(-2.6).c_str());
 }
+
+/**
+ * DBController
+ */
+
+//TEST()
 
 int main(int argc, char **argv)
 {
