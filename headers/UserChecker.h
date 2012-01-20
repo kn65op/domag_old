@@ -10,6 +10,10 @@
 
 #include <string>
 
+/**
+ *  Klasa odpowiadająca za sprawdzanie użytkowników. Możliwosć przechowywania danych w pliku jak i w bazie.
+ */
+
 class UserChecker
 {
 public:

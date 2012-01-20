@@ -11,6 +11,10 @@
 #include <gtkmm-3.0/gtkmm.h>
 #include <string>
 
+/**
+ * Klasa odpowiadająca za wyświetlanie okna pozwalającego wpisać nazwę użytkownika oraz hasło, oraz stworzenie nowego użytkownika.
+ */
+
 class LoginWindow : public Gtk::Window
 {
 public:

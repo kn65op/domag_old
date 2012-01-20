@@ -6,6 +6,7 @@
  */
 
 #include <cstdlib>
+#include <string>
 
 #include <gtkmm-3.0/gtkmm.h>
 
@@ -13,7 +14,7 @@
 #include "headers/LoginWindow.h"
 #include "headers/SQLite3Controller.h"
 
-#define TEST
+//#define TEST
 
 #ifdef TEST
 #include <iostream>
@@ -33,6 +34,8 @@ int main(int argc, char** argv)
   cout << sql.close() << "\n";  
   
 #else
+  
+  std::string dbname = "data.sqlite3"
   Gtk::Main gin(argc, argv);
   
   LoginWindow lw;
