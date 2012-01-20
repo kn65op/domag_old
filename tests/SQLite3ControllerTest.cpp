@@ -76,6 +76,7 @@ TEST(SQLiteController, executeSelectQuery)
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (1);"));
   ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (2);"));
   EXPECT_THROW(sql->executeSelectQuery("SELECT lol FROM first;"), SQLException);
+  ASSERT_NO_THROW(sql->executeQuery("INSERT INTO first values (3);"));
   EXPECT_THROW(sql->executeSelectQuery("SELECT * FROM afirst;"), SQLException);
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
@@ -93,6 +94,7 @@ TEST(SQLiteController, getNextRecord)
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first;"));
   EXPECT_TRUE(sql->getNextRecord());
+  ASSERT_NO_THROW(sql->executeQuery("CREATE TABLE second (id integer primary key);"));
   EXPECT_TRUE(sql->getNextRecord());
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeSelectQuery("SELECT * from first where id = 3;"));
@@ -101,6 +103,7 @@ TEST(SQLiteController, getNextRecord)
   EXPECT_TRUE(sql->getNextRecord());
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
+  EXPECT_NO_THROW(sql->executeQuery("DROP TABLE second;"));
   delete sql;
 }
 

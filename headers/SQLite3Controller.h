@@ -62,7 +62,7 @@ public:
    */
   void clearSelectQuery();
   /**
-   * Funkcja ustawiająca używaną bazę danych.
+   * Funkcja ustawiająca używaną bazę danych. Konieczne jes użycie przed wykonaniem innego zapytania typu select, jeśli nie mamy pewności, że pobraliśmy wszystkie wiersze. W przeciwnym wypadku kolejne zapytanie nie powiedzie się.
    * @param Nazwa bazy danych, którą chcemy ustawić.
    */
   void setDb_name(std::string);
@@ -101,13 +101,15 @@ public:
 private:
   bool opened;
   bool is_row;
-  std::string db_name;
-  sqlite3* db_handle;
-  sqlite3_stmt* stmt;
+  bool is_select;
+  std::string db_name; //nazwa bazy
+  sqlite3* db_handle; //handler do bazy
+  sqlite3_stmt* stmt_no_select; //handler do statement
+  sqlite3_stmt* stmt_select; //handler do statement
   
-  void prepareStatement(std::string query) throw(SQLException);
-  void clearStatement();
-  int getType(int n) throw(NoDataException);
+  void prepareStatement(std::string query, sqlite3_stmt **stmt) throw(SQLException); //przygotowanie wyrażenia
+  void clearStatement(sqlite3_stmt *stmt); //czyszczenie wyrażenia
+  int getType(int n) throw(NoDataException); //pobranie typu
 };
 
 #endif	/* SQLITE3CONTROLLER_H */
