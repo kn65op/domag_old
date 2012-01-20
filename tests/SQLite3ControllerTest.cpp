@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "../headers/SQLite3Controller.h"
-#include "../headers/Helper.h"
+#include <tomko/Helper.h>
 #include "gtest/gtest.h"
 #include "headers/DBController.h"
 
@@ -283,22 +283,6 @@ TEST(SQLiteController, getDoubleFromNColumn)
   EXPECT_FALSE(sql->getNextRecord());
   EXPECT_NO_THROW(sql->executeQuery("DROP TABLE first;"));
   delete sql;
-}
-
-/**
- * Helper
- */
-TEST(Helper, intToString)
-{
-  EXPECT_STREQ("1", Helper::intToString(1).c_str());
-  EXPECT_STREQ("-1", Helper::intToString(-1).c_str());
-  EXPECT_STREQ("234", Helper::intToString(234).c_str());
-  EXPECT_STREQ("-234", Helper::intToString(-234).c_str());
-  EXPECT_STREQ("5", Helper::intToString(5.6).c_str());
-  EXPECT_STREQ("3", Helper::intToString(3.4).c_str());
-  EXPECT_STREQ("0", Helper::intToString(-0).c_str());
-  EXPECT_STREQ("-1", Helper::intToString(-1.1).c_str());
-  EXPECT_STREQ("-2", Helper::intToString(-2.6).c_str());
 }
 
 /**

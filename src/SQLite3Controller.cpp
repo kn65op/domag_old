@@ -7,7 +7,7 @@
 
 #include "../headers/SQLite3Controller.h"
 #include "../headers/sqlite3.h"
-#include "../headers/Helper.h"
+#include <tomko/Helper.h>
 
 #include <string>
 
