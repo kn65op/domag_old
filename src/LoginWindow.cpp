@@ -6,17 +6,17 @@
  */
 
 #include "../headers/LoginWindow.h"
-#include "../headers/UserChecker.h"
 
 using namespace std;
 
-LoginWindow::LoginWindow() :
+LoginWindow::LoginWindow(UserChecker *nuc) :
 ok("OK"),
 exit_but("Wyjdź"),
 new_user("Stwórz nowego użytkownika"),
 login_ok(false),
 login_lab("Użytkownik:", Gtk::ALIGN_END),
-pass_lab("Hasło:", Gtk::ALIGN_END)
+pass_lab("Hasło:", Gtk::ALIGN_END),
+uc(nuc)
 {
   initButtons();
   init();
@@ -59,17 +59,16 @@ bool LoginWindow::isCorrect()
 void LoginWindow::initButtons()
 {
   ok.signal_clicked().connect(sigc::mem_fun(*this,
-          &LoginWindow::ok_clicked));
+                                            &LoginWindow::ok_clicked));
   exit_but.signal_clicked().connect(sigc::mem_fun(*this,
-          &LoginWindow::exit_clicked));
+                                                  &LoginWindow::exit_clicked));
   new_user.signal_clicked().connect(sigc::mem_fun(*this,
-          &LoginWindow::new_user_clicked));
+                                                  &LoginWindow::new_user_clicked));
 }
 
 void LoginWindow::ok_clicked()
 {
-  UserChecker uc;
-  if (login_ok = uc.checkUser(login.get_text(), pass.get_text()))
+  if (login_ok = uc->checkUser(login.get_text(), pass.get_text()))
   {
     hide();
   }
@@ -84,8 +83,7 @@ void LoginWindow::ok_clicked()
 
 void LoginWindow::new_user_clicked()
 {
-  UserChecker uc;
-  if (login.get_text() != "" && pass.get_text() != "" && uc.addUser(login.get_text(), pass.get_text()))
+  if (login.get_text() != "" && pass.get_text() != "" && uc->addUser(login.get_text(), pass.get_text()))
   {
     Gtk::MessageDialog *info = new Gtk::MessageDialog("Konto utworzono");
     info->set_modal(true);

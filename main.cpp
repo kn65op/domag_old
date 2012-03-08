@@ -13,6 +13,7 @@
 #include "headers/MainWindow.h"
 #include "headers/LoginWindow.h"
 #include "headers/SQLite3Controller.h"
+#include "headers/FileUserChecker.h"
 
 //#define TEST
 
@@ -38,7 +39,7 @@ int main(int argc, char** argv)
   std::string dbname = "data.sqlite3";
   Gtk::Main gin(argc, argv);
   
-  LoginWindow lw;
+  LoginWindow lw(new FileUserChecker("Data/accounts"));
   
   Gtk::Main::run(lw);
   

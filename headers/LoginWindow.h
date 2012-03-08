@@ -10,6 +10,7 @@
 
 #include <gtkmm-3.0/gtkmm.h>
 #include <string>
+#include "UserChecker.h"
 
 /**
  * Klasa odpowiadająca za wyświetlanie okna pozwalającego wpisać nazwę użytkownika oraz hasło, oraz stworzenie nowego użytkownika.
@@ -19,9 +20,10 @@ class LoginWindow : public Gtk::Window
 {
 public:
   /**
-   * Konstruktor inicjujący grafike.
+   * Konstruktor inicjujący grafike oraz sprawdzacz użytkowników.
+   * @param nuc wskaźnik do sprawdzacza użytkowników. Sprawdzacz zostaje usunięty przy usuwaniu obiektu (zalecana konstrukcja LoginWindow(new UserChecker);
    */
-  LoginWindow();
+  LoginWindow(UserChecker *nuc);
   /**
    * Destruktor.
    */
@@ -32,6 +34,7 @@ public:
    */
   bool isCorrect();
 private:
+  UserChecker *uc;
   std::string program_name;
   Gtk::Button ok, exit_but, new_user;
   Gtk::Entry login, pass;

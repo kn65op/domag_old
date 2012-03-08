@@ -7,17 +7,15 @@
 
 #include "../headers/UserChecker.h"
 
-#include <cstring>
-#include <sstream>
-#include <fstream>
 #include <openssl/sha.h>
+#include <cstring>
 
 using namespace std;
 
-UserChecker::UserChecker()
-{
-  filename = "Data/accounts";
-}
+//UserChecker::UserChecker()
+//{
+//  name = "Data/accounts";
+//}
 
 UserChecker::~UserChecker()
 {
@@ -25,17 +23,16 @@ UserChecker::~UserChecker()
 
 bool UserChecker::checkUser(std::string user, std::string pass)
 {
-  bool ok = false;
-  ifstream file(filename);
-  if (!file.good())
+  if (!openStorage())
   {
-    return false;
+    false;
   }
+  bool ok = false;
   string user_file, pass_file;
-  while (!ok && !file.eof())
+  while (getNextUser())
   {
-    file >> user_file;
-    file >> pass_file;
+    user_file = getUser();
+    pass_file = getPass();
     if (user_file == user)
     {
       if (pass_file == sha(pass))
@@ -44,24 +41,14 @@ bool UserChecker::checkUser(std::string user, std::string pass)
       }
     }
   }
-  file.close();
+  closeStorage();
   return ok;
 }
 
 bool UserChecker::addUser(std::string user, std::string pass)
 {
-  ofstream file(filename, ios::ate | ios::app);
-  if (!file.good())
-  {
-    file.close();
-    file.open(filename);
-  }
-  file << user;
-  file << " ";
   string sh = sha(pass);
-  file << sh;
-  file << "\n";
-  file.close();
+  saveUser(user, sh);
   return true;
 }
 
