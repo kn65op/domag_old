@@ -9,8 +9,7 @@
 
 using namespace std;
 
-SQLException::SQLException(string error) :
-exception()
+SQLException::SQLException(string error)
 {
   this->error = error;
 }

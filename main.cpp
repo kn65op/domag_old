@@ -35,7 +35,7 @@ int main(int argc, char** argv)
   
 #else
   
-  std::string dbname = "data.sqlite3"
+  std::string dbname = "data.sqlite3";
   Gtk::Main gin(argc, argv);
   
   LoginWindow lw;
