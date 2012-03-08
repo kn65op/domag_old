@@ -8,10 +8,9 @@
 #ifndef SQLEXCEPTION_H
 #define	SQLEXCEPTION_H
 
-#include <exception>
 #include <string>
 
-class SQLException :public std::exception
+class SQLException
 {
 public:
   /**

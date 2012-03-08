@@ -8,9 +8,7 @@
 #ifndef NODATAEXCEPTION_H
 #define	NODATAEXCEPTION_H
 
-#include <exception>
-
-class NoDataException : public std::exception
+class NoDataException
 {
 public:
   /**
